@@ -1,45 +1,33 @@
+import { Link } from "react-router-dom";
+
 const Navbar = () => {
   return (
     <nav className="bg-indigo-600">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <a href="#" className="text-white text-xl font-bold">
+            <Link to="/" className="text-white">
               Logo
-            </a>
+            </Link>
           </div>
           <div className="hidden md:block">
             <div className="ml-4 flex items-center space-x-4">
-              <a
-                href="#"
-                className="px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-indigo-500"
-              >
+              <Link to="/books" className="text-white">
                 All Books
-              </a>
-              <a
-                href="#"
-                className="px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-indigo-500"
-              >
+              </Link>
+              <Link to="/add-new-book" className="text-white ">
                 Add New
-              </a>
-              <a
-                href="#"
-                className="px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-indigo-500"
-              >
+              </Link>
+
+              <Link to="/register" className="text-white">
                 Register
-              </a>
-              <a
-                href="#"
-                className="px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-indigo-500"
-              >
+              </Link>
+              <Link to="/login" className="text-white  ">
                 Login
-              </a>
-              <a
-                href="#"
-                className="px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-indigo-500"
-              >
+              </Link>
+              <Link to="/" className="text-white ">
                 Logout
-              </a>
+              </Link>
             </div>
           </div>
           <div className="-mr-2 flex md:hidden">
