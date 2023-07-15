@@ -1,11 +1,12 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type FormData = {
+  name: string;
   email: string;
   password: string;
 };
 
-const Login = () => {
+const RegisterPage = () => {
   const {
     register,
     handleSubmit,
@@ -26,10 +27,26 @@ const Login = () => {
         >
           <div>
             <h2 className="mb-4 text-center text-3xl leading-9 font-extrabold text-gray-900">
-              Login now
+              Register
             </h2>
           </div>
           <div className="rounded-md shadow-sm">
+            <div>
+              <input
+                aria-label="Name"
+                type="text"
+                {...register("name", { required: "Name is required" })}
+                className={`appearance-none rounded-md relative block w-full px-3 py-2 border ${
+                  errors.name ? "border-red-500" : "border-gray-300"
+                } placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                placeholder="Name"
+              />
+              {errors.name && (
+                <p className="mt-2 text-sm text-red-500">
+                  {errors.name.message}
+                </p>
+              )}
+            </div>
             <div className="my-5">
               <input
                 aria-label="Email address"
@@ -81,7 +98,7 @@ const Login = () => {
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-2"
             >
-              Login
+              Register
             </button>
           </div>
         </form>
@@ -90,4 +107,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default RegisterPage;
