@@ -8,6 +8,7 @@ function App() {
   useEffect(() => {
     const fetchUser = async () => {
       const user = await dispatch(loggedinUser());
+      console.log(user);
       if (user?.payload?.data?.success) {
         dispatch(setCurrentUser(user?.payload?.data?.data));
       }

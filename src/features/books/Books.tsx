@@ -29,8 +29,8 @@ const Books = () => {
       )}
       <div className="w-10/12 m-2 grid grid-cols-3 gap-5">
         {books?.map((book: IBook) => (
-          <Link to="/book-details" state={{ book: book }}>
-            <BookCard key={book._id} book={book} />
+          <Link key={book._id} to="/book-details" state={{ book: book }}>
+            <BookCard book={book} />
           </Link>
         ))}
       </div>

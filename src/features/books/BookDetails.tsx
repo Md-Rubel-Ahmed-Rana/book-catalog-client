@@ -10,8 +10,16 @@ const BookDetails = () => {
   const [review, setReview] = useState("");
   const user = useSelector((state) => state.user.user);
   const [addReviewToBook, { isLoading, isSuccess }] = useReviewToBookMutation();
-
   const handleReview = async () => {
+    if (!user) {
+      return Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Login first to add review",
+        showConfirmButton: false,
+        timer: 5000,
+      });
+    }
     const reviewData = {
       user,
       review,

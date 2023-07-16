@@ -19,26 +19,51 @@ const Navbar = () => {
           </div>
           <div className="hidden md:block">
             <div className="ml-4 flex items-center space-x-4">
-              <Link to="/books" className="">
+              <Link
+                to="/books"
+                className="border rounded-md border-stone-500 px-2"
+              >
                 All Books
               </Link>
-              <Link to="/add-new-book" className=" ">
+              <Link
+                to="/add-new-book"
+                className="border rounded-md border-stone-500 px-2"
+              >
                 Add New
               </Link>
+              {user?.email && (
+                <button className="border rounded-md border-stone-500 px-2">
+                  Wishlist
+                </button>
+              )}
+              {user?.email && (
+                <button className="border rounded-md border-stone-500 px-2">
+                  On Reading
+                </button>
+              )}
 
               {!user?.email && (
                 <>
                   {" "}
-                  <Link to="/register" className="">
+                  <Link
+                    to="/register"
+                    className="border rounded-md border-stone-500 px-2"
+                  >
                     Register
                   </Link>
-                  <Link to="/login" className="  ">
+                  <Link
+                    to="/login"
+                    className="border rounded-md border-stone-500 px-2"
+                  >
                     Login
                   </Link>
                 </>
               )}
               {user?.email && (
-                <button onClick={handleLogout} className=" ">
+                <button
+                  onClick={handleLogout}
+                  className="border hover:bg-slate-300 rounded-md border-stone-500 px-2"
+                >
                   Logout
                 </button>
               )}

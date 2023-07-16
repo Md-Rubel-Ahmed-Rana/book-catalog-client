@@ -21,7 +21,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    toast.success("User logged in successfully!");
     const result = await dispatch(loginUser(data));
     if (result?.payload?.data?.success) {
       Swal.fire({

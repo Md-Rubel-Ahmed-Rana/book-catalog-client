@@ -56,6 +56,18 @@ const userSlice = createSlice({
       state.error = action.payload as string;
       state.loading = false;
     });
+    builder.addCase(loggedinUser.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(loggedinUser.fulfilled, (state, action: any) => {
+      const data = action?.payload?.data?.data;
+      state.user = data?.user;
+      state.loading = false;
+    });
+    builder.addCase(loggedinUser.rejected, (state, action) => {
+      state.error = action.payload as string;
+      state.loading = false;
+    });
   },
 });
 
