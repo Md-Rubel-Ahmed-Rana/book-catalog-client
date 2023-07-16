@@ -1,7 +1,8 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useCreateBookMutation } from "./bookApi";
+import { useEditBookMutation } from "./bookApi";
+import { useState } from "react";
 
 type FormData = {
   title: string;
@@ -13,33 +14,34 @@ type FormData = {
 
 const EditBook = () => {
   const { register, handleSubmit } = useForm<FormData>();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { state } = useLocation();
   const book = state.book;
 
-  const [createBook] = useCreateBookMutation();
+  const [editBook] = useEditBookMutation();
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    const result = await createBook(data);
+    setLoading(true);
+    const result = await editBook({ id: book._id, data: data });
     if (result?.data?.success) {
-      if (result?.data?.success) {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: result?.data?.message,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate("/");
-      } else {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: result?.data?.message,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
+      setLoading(false);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: result?.data?.message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/books");
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: result?.data?.message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 
