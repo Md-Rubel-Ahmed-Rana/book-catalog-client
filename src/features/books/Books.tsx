@@ -18,14 +18,30 @@ const Books = () => {
   }
   console.log(data?.data?.data);
   return (
-    <div className="flex">
-      {isError && <h1>{error.message}</h1>}
-      <div className="grid grid-cols-3 px-10 py-5 gap-5">
+    <div className="flex p-5">
+      {isError && <h1>{error?.message}</h1>}
+      <div className="w-10/12 m-2 grid grid-cols-3 gap-5">
         {data?.data?.data?.map((book: IBook) => (
           <BookCard book={book} />
         ))}
       </div>
-      <div>side bar</div>
+      <div className="w-2/12 border m-2 p-4 rounded-md">
+        <div>
+          <label htmlFor="" className="text-md font-semibold">
+            Search book
+          </label>
+          <div className="flex gap-1 w-full">
+            <input type="text" className="border w-28 p-1" />
+            <button className="bg-blue-200 text-sm font-semibold p-2 rounded-md">
+              Search
+            </button>
+          </div>
+        </div>
+        {/* filters  */}
+        <div className="mt-3">
+          <h4 className="text-md font-semibold">Filters</h4>
+        </div>
+      </div>
     </div>
   );
 };
