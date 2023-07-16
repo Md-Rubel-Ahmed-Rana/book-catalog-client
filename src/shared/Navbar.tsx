@@ -1,13 +1,20 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const user = useSelector((state) => state.user.user);
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    window.location.replace("/");
+  };
   return (
     <nav className="bg-indigo-600">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <Link to="/" className="text-white">
-              Logo
+            <Link to="/" className="text-white flex gap-3 items-center">
+              <span>Welcome</span>
+              <span className="font-bold">{user?.name}</span>
             </Link>
           </div>
           <div className="hidden md:block">
@@ -19,15 +26,22 @@ const Navbar = () => {
                 Add New
               </Link>
 
-              <Link to="/register" className="text-white">
-                Register
-              </Link>
-              <Link to="/login" className="text-white  ">
-                Login
-              </Link>
-              <Link to="/" className="text-white ">
-                Logout
-              </Link>
+              {!user?.email && (
+                <>
+                  {" "}
+                  <Link to="/register" className="text-white">
+                    Register
+                  </Link>
+                  <Link to="/login" className="text-white  ">
+                    Login
+                  </Link>
+                </>
+              )}
+              {user?.email && (
+                <button onClick={handleLogout} className="text-white ">
+                  Logout
+                </button>
+              )}
             </div>
           </div>
           <div className="-mr-2 flex md:hidden">
@@ -42,9 +56,9 @@ const Navbar = () => {
                 viewBox="0 0 24 24"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="M4 6h16M4 12h16M4 18h16"
                 ></path>
               </svg>

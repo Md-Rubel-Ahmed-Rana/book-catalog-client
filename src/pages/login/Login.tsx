@@ -1,4 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../features/user/userSlice";
+import { toast } from "react-hot-toast";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 type FormData = {
   email: string;
@@ -12,9 +17,30 @@ const Login = () => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    // Handle form submission logic here
-    console.log(data);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    toast.success("User logged in successfully!");
+    const result = await dispatch(loginUser(data));
+    if (result?.payload?.data?.success) {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: result?.payload?.data?.message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/");
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: result?.payload?.data?.message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
   return (
