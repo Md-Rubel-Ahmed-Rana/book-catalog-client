@@ -58,6 +58,8 @@ const AddNewBook = () => {
             </h2>
           </div>
           <div className="rounded-md shadow-sm">
+            <p className="text-sm font-semibold mb-1">Title</p>
+
             <div>
               <input
                 aria-label="Title"
@@ -75,6 +77,8 @@ const AddNewBook = () => {
               )}
             </div>
             <div className="my-5 rounded-md">
+              <p className="text-sm font-semibold mb-1">Author</p>
+
               <input
                 aria-label="Author"
                 type="text"
@@ -93,6 +97,8 @@ const AddNewBook = () => {
               )}
             </div>
             <div className="">
+              <p className="text-sm font-semibold mb-1">Genre</p>
+
               <input
                 aria-label="Genre"
                 type="text"
@@ -111,6 +117,8 @@ const AddNewBook = () => {
               )}
             </div>
             <div className="my-5">
+              <p className="text-sm font-semibold mb-1">Publication Date</p>
+
               <input
                 aria-label="Publication Date"
                 type="date"
