@@ -11,8 +11,8 @@ const bookApi = apiSlice.injectEndpoints({
       invalidatesTags: ["books"],
     }),
     getBooks: builder.query({
-      query: () => ({
-        url: "/api/v1/books",
+      query: (searchTerm) => ({
+        url: `/api/v1/books?searchTerm=${searchTerm}`,
       }),
       providesTags: ["books"],
     }),
