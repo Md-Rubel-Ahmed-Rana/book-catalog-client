@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useCreateBookMutation } from "./bookApi";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../redux/hooks";
 
 type FormData = {
   title: string;
@@ -19,10 +19,10 @@ const AddNewBook = () => {
     formState: { errors },
   } = useForm<FormData>();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user.user);
+  const user: any = useAppSelector((state) => state.user.user);
   const [createBook] = useCreateBookMutation();
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    const result = await createBook({ ...data, authorId: user.id });
+    const result: any = await createBook({ ...data, authorId: user.id });
     if (result?.data?.success) {
       if (result?.data?.success) {
         Swal.fire({

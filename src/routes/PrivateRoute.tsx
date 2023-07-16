@@ -1,11 +1,22 @@
-import { useSelector } from "react-redux";
+import { ReactNode, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { useAppSelector } from "../redux/hooks";
+import Loader from "../components/Loader";
 
-const PrivateRoute = ({ children }) => {
-  const userState = useSelector((state) => state);
-  console.log("fro private route", userState?.user?.loading);
-  if (userState?.user?.loading === true) {
-    return <h2>Loading...</h2>;
+type IProps = {
+  children: ReactNode;
+};
+
+const PrivateRoute = ({ children }: IProps) => {
+  const userState = useAppSelector((state) => state);
+  const [loading, setLoading] = useState(true);
+
+  setTimeout(() => {
+    setLoading(false);
+  }, 1000);
+
+  if (loading) {
+    return <Loader />;
   }
 
   if (!userState?.user?.user.email) {

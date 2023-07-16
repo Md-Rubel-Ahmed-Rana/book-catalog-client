@@ -1,8 +1,8 @@
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../redux/hooks";
 
 const Navbar = () => {
-  const user = useSelector((state) => state.user.user);
+  const user = useAppSelector((state) => state.user.user);
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     window.location.replace("/");
@@ -25,21 +25,29 @@ const Navbar = () => {
               >
                 All Books
               </Link>
-              <Link
-                to="/add-new-book"
-                className="border rounded-md border-stone-500 px-2"
-              >
-                Add New
-              </Link>
               {user?.email && (
-                <button className="border rounded-md border-stone-500 px-2">
-                  Wishlist
-                </button>
+                <Link
+                  to="/add-new-book"
+                  className="border rounded-md border-stone-500 px-2"
+                >
+                  Add New
+                </Link>
               )}
               {user?.email && (
-                <button className="border rounded-md border-stone-500 px-2">
-                  On Reading
-                </button>
+                <Link
+                  to="/wishList"
+                  className="border rounded-md border-stone-500 px-2"
+                >
+                  Wishlist
+                </Link>
+              )}
+              {user?.email && (
+                <Link
+                  to="/readingList"
+                  className="border rounded-md border-stone-500 px-2"
+                >
+                  Reading List
+                </Link>
               )}
 
               {!user?.email && (

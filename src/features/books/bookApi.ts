@@ -16,6 +16,12 @@ const bookApi = apiSlice.injectEndpoints({
       }),
       providesTags: ["books"],
     }),
+    getSingleBook: builder.query({
+      query: (id) => ({
+        url: `/api/v1/books/${id}`,
+      }),
+      providesTags: ["book"],
+    }),
     deleteBook: builder.mutation({
       query: (id) => ({
         url: `/api/v1/books/${id}`,
@@ -37,7 +43,19 @@ const bookApi = apiSlice.injectEndpoints({
         method: "PUT",
         body: data,
       }),
-      invalidatesTags: ["books"],
+      invalidatesTags: ["book"],
+    }),
+    addToWishList: builder.mutation({
+      query: ({ data }) => ({
+        url: "/api/v1/wishlist",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    getWishListBooks: builder.query({
+      query: () => ({
+        url: "/api/v1/wishlist",
+      }),
     }),
   }),
 });
@@ -48,4 +66,7 @@ export const {
   useDeleteBookMutation,
   useEditBookMutation,
   useReviewToBookMutation,
+  useGetSingleBookQuery,
+  useAddToWishListMutation,
+  useGetWishListBooksQuery,
 } = bookApi;

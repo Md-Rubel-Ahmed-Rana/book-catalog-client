@@ -1,7 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
-import { useDeleteBookMutation } from "./bookApi";
+import { useAddToWishListMutation, useDeleteBookMutation } from "./bookApi";
 import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 interface IBook {
   _id: string;
@@ -13,12 +14,13 @@ interface IBook {
   __v: string;
 }
 
-const BookCard = ({ book }: IBook) => {
+const BookCard = ({ book }: any) => {
   const location = useLocation();
-  const user = useSelector((state) => state.user.user);
+  const user: any = useSelector((state: RootState) => state.user.user);
 
-  const { title, author, authorId: authorInfo, genre, publicationDate } = book;
-  const [deltedBook] = useDeleteBookMutation();
+  const [deleteBook] = useDeleteBookMutation();
+  const [addToWishList] = useAddToWishListMutation();
+
   const handleDeleteBook = (book: IBook) => {
     Swal.fire({
       title: "Are you sure?",
@@ -30,7 +32,7 @@ const BookCard = ({ book }: IBook) => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const result = await deltedBook(book._id);
+        const result: any = await deleteBook(book._id);
         if (result.data.success) {
           Swal.fire("Deleted!", "Your book has been deleted.", "success");
         }
@@ -38,26 +40,59 @@ const BookCard = ({ book }: IBook) => {
     });
   };
 
+  const handleAddToWishList = async () => {
+    const data = {
+      email: user?.email,
+      bookId: book?._id,
+      title: book?.title,
+    };
+    const result: any = await addToWishList({ data });
+    if (result.data.createdAt) {
+      Swal.fire({
+        title: "Book added successfully!",
+        icon: "success",
+        timer: 1500,
+      });
+    }
+  };
+
   return (
     <div className="border py-5 px-2 rounded-md bg-sky-50">
-      <h2 className="text-xl font-bold">Title: {title}</h2>
-      <h2 className="text-sm font-semibold">Genre: {genre}</h2>
-      <h2 className="text-sm font-semibold">Author: {author}</h2>
+      <h2 className="text-xl font-bold">Title: {book?.title}</h2>
+      <h2 className="text-sm font-semibold">Genre: {book?.genre}</h2>
+      <h2 className="text-sm font-semibold">Author: {book?.author}</h2>
       <h2 className="text-sm font-semibold">
-        Published: {publicationDate.split("-").reverse().join("-")}
+        Published: {book?.publicationDate?.split("-").reverse().join("-")}
       </h2>
-      {user.id === authorInfo._id && location.pathname === "/book-details" && (
-        <div className="flex justify-center gap-2 mt-5">
-          <button className="bg-blue-500 px-5 py-1 text-white rounded-sm text-sm font-semibold">
-            <Link to="/edit-book" state={{ book: book }}>
-              Edit
-            </Link>
+      {user?.id === book?.authorId?._id &&
+        location.pathname === `/book-details/${book?._id}` && (
+          <div className="flex justify-center gap-2 mt-5">
+            <button className="bg-blue-500 px-5 py-1 text-white rounded-sm text-sm font-semibold">
+              <Link to="/edit-book" state={{ book: book }}>
+                Edit
+              </Link>
+            </button>
+            <button
+              onClick={() => handleDeleteBook(book)}
+              className="bg-red-500 px-5 py-1 text-white rounded-sm text-sm font-semibold"
+            >
+              Delete
+            </button>
+          </div>
+        )}
+      {user?.id && location.pathname === `/book-details/${book?._id}` && (
+        <div className="flex gap-5 mt-3 justify-center">
+          <button
+            onClick={handleAddToWishList}
+            className="bg-blue-500 px-5 py-1 text-white rounded-sm text-sm font-semibold"
+          >
+            Add to Wishlist
           </button>
           <button
             onClick={() => handleDeleteBook(book)}
             className="bg-red-500 px-5 py-1 text-white rounded-sm text-sm font-semibold"
           >
-            Delete
+            Add to Reading
           </button>
         </div>
       )}

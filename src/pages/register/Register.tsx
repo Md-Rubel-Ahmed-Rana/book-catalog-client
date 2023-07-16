@@ -20,7 +20,7 @@ const RegisterPage = () => {
   const [createUser] = useCreateUserMutation();
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    const result = await createUser(data);
+    const result: any = await createUser(data);
     if (result?.data?.success) {
       if (result?.data?.success) {
         Swal.fire({

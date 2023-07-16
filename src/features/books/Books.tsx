@@ -4,6 +4,7 @@ import { useGetBooksQuery } from "./bookApi";
 import { Link } from "react-router-dom";
 
 interface IBook {
+  _id: string;
   title: string;
   author: string;
   authorId: any;
@@ -13,7 +14,8 @@ interface IBook {
 
 const Books = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const { data, isLoading, isError, error } = useGetBooksQuery([]);
+  console.log(searchTerm);
+  const { data, isLoading } = useGetBooksQuery([]);
   if (isLoading) {
     return (
       <h1 className="text-xl font-bold text-center py-5">Books Loading...</h1>
@@ -23,13 +25,16 @@ const Books = () => {
 
   return (
     <div className="flex p-5">
-      {isError && <h1>{error?.message}</h1>}
       {data?.data?.data.length < 1 && (
         <h1 className="w-full text-center text-xl font-bold">No books found</h1>
       )}
       <div className="w-10/12 m-2 grid grid-cols-3 gap-5">
         {books?.map((book: IBook) => (
-          <Link key={book._id} to="/book-details" state={{ book: book }}>
+          <Link
+            key={book._id}
+            to={`/book-details/${book._id}`}
+            state={{ book: book }}
+          >
             <BookCard book={book} />
           </Link>
         ))}

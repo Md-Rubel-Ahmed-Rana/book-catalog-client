@@ -2,7 +2,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEditBookMutation } from "./bookApi";
-import { useState } from "react";
 
 type FormData = {
   title: string;
@@ -14,7 +13,6 @@ type FormData = {
 
 const EditBook = () => {
   const { register, handleSubmit } = useForm<FormData>();
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { state } = useLocation();
   const book = state.book;
@@ -22,10 +20,8 @@ const EditBook = () => {
   const [editBook] = useEditBookMutation();
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    setLoading(true);
-    const result = await editBook({ id: book._id, data: data });
+    const result: any = await editBook({ id: book._id, data: data });
     if (result?.data?.success) {
-      setLoading(false);
       Swal.fire({
         position: "center",
         icon: "success",

@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import axios, { AxiosResponse } from "axios";
 
 export const initialState = {
   user: {
@@ -22,17 +22,20 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const loggedinUser = createAsyncThunk("auth/loggedinUser", async () => {
-  const user = await axios.get(
-    "http://localhost:5000/api/v1/auth/loggedinUser",
-    {
-      headers: {
-        authorization: localStorage.getItem("accessToken"),
-      },
-    }
-  );
-  return user;
-});
+export const loggedinUser = createAsyncThunk<AxiosResponse<any, any>, void>(
+  "auth/loggedinUser",
+  async () => {
+    const user = await axios.get(
+      "http://localhost:5000/api/v1/auth/loggedinUser",
+      {
+        headers: {
+          authorization: localStorage.getItem("accessToken"),
+        },
+      }
+    );
+    return user;
+  }
+);
 
 const userSlice = createSlice({
   name: "auth",
@@ -59,11 +62,14 @@ const userSlice = createSlice({
     builder.addCase(loggedinUser.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(loggedinUser.fulfilled, (state, action: any) => {
-      const data = action?.payload?.data?.data;
-      state.user = data?.user;
-      state.loading = false;
-    });
+    builder.addCase(
+      loggedinUser.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        const data = action?.payload?.data?.data;
+        state.user = data?.user;
+        state.loading = false;
+      }
+    );
     builder.addCase(loggedinUser.rejected, (state, action) => {
       state.error = action.payload as string;
       state.loading = false;

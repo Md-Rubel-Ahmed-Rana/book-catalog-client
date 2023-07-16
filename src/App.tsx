@@ -3,17 +3,14 @@ import router from "./routes/routes";
 import { useEffect } from "react";
 import { loggedinUser, setCurrentUser } from "./features/user/userSlice";
 import { useDispatch } from "react-redux";
+import { AppDispatch } from "./app/store";
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    const fetchUser = async () => {
-      const user = await dispatch(loggedinUser());
-      console.log(user);
-      if (user?.payload?.data?.success) {
-        dispatch(setCurrentUser(user?.payload?.data?.data));
-      }
-    };
-    fetchUser();
+    const user: any = dispatch(loggedinUser());
+    if (user?.payload?.data?.success) {
+      dispatch(setCurrentUser(user?.payload?.data?.data));
+    }
   }, []);
   return <RouterProvider router={router} />;
 }
