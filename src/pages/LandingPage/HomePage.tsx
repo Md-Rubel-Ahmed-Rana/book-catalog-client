@@ -1,5 +1,11 @@
+import Books from "../../features/books/Books";
+
 const HomePage = () => {
-  return <div>HomePage</div>;
+  return (
+    <div>
+      <Books />
+    </div>
+  );
 };
 
 export default HomePage;
