@@ -15,9 +15,7 @@ const BookCard = ({ book }: IBook) => {
       <h2 className="text-xl font-bold">Title: {title}</h2>
       <h2 className="text-sm font-semibold">Genre: {genre}</h2>
       <h2 className="text-sm font-semibold">Author: {author}</h2>
-      <h2 className="text-sm font-semibold">
-        Published: {publicationDate.slice(3, 16)}
-      </h2>
+      <h2 className="text-sm font-semibold">Published: {publicationDate}</h2>
     </div>
   );
 };
