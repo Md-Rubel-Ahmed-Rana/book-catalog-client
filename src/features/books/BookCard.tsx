@@ -1,4 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useDeleteBookMutation } from "./bookApi";
 
 interface IBook {
   _id: string;
@@ -13,8 +15,24 @@ interface IBook {
 const BookCard = ({ book }: IBook) => {
   const location = useLocation();
   const { title, author, authorId: authorInfo, genre, publicationDate } = book;
+  const [deltedBook] = useDeleteBookMutation();
   const handleDeleteBook = (book: IBook) => {
-    console.log(book);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const result = await deltedBook(book._id);
+        if (result.data.success) {
+          Swal.fire("Deleted!", "Your book has been deleted.", "success");
+        }
+      }
+    });
   };
 
   return (
