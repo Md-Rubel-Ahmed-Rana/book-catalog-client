@@ -8,8 +8,8 @@ function App() {
   useEffect(() => {
     const fetchUser = async () => {
       const user = await dispatch(loggedinUser());
-      if (user.payload.data.success) {
-        dispatch(setCurrentUser(user.payload.data.data));
+      if (user?.payload?.data?.success) {
+        dispatch(setCurrentUser(user?.payload?.data?.data));
       }
     };
     fetchUser();

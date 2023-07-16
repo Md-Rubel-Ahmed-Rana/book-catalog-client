@@ -1,4 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useCreateUserMutation } from "../../features/user/userApi";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 type FormData = {
   name: string;
@@ -12,10 +15,32 @@ const RegisterPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
+  const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    // Handle form submission logic here
-    console.log(data);
+  const [createUser] = useCreateUserMutation();
+
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    const result = await createUser(data);
+    if (result?.data?.success) {
+      if (result?.data?.success) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: result?.data?.message,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/login");
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: result?.data?.message,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    }
   };
 
   return (

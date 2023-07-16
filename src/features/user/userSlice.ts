@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { toast } from "react-hot-toast";
-import Swal from "sweetalert2";
 
 export const initialState = {
   user: {
