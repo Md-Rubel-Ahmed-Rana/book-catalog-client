@@ -19,7 +19,7 @@ const PrivateRoute = ({ children }: IProps) => {
     return <Loader />;
   }
 
-  if (!userState?.user?.user.email) {
+  if (!userState?.user?.user?.email) {
     return <Navigate to="/login" />;
   }
   return <div>{children}</div>;

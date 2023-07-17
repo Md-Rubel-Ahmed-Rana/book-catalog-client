@@ -79,7 +79,7 @@ const EditBook = () => {
                 placeholder="Author"
               />
             </div>
-            <div className="">
+            <div>
               <p className="text-sm font-semibold mb-1">Genre</p>
               <select
                 defaultValue={book?.genre}

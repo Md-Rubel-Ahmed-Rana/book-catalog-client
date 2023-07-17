@@ -92,7 +92,11 @@ const ReadingList = () => {
                 </tbody>
               </table>
             ) : (
-              <h2 className="text-center py-10">No books added yet.</h2>
+              <div className="flex justify-center items-center">
+                <h2 className="text-center h-screen place-items-center">
+                  No books added yet.
+                </h2>
+              </div>
             )}
           </div>
         </div>
