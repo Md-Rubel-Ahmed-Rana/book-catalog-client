@@ -79,7 +79,7 @@ const BookDetails = () => {
           Reviews of this book
         </h2>
         {book?.reviews?.map((review: any) => (
-          <div className="border px-5 py-2 rounded-md m-2">
+          <div key={Math.random()} className="border px-5 py-2 rounded-md m-2">
             <h2 className="text-sm font-bold">{review?.user?.name}</h2>
             <p className="text-xs font-thin ml-2 text-gray-700">
               {review?.review}

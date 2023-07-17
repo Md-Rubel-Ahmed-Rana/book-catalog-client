@@ -57,9 +57,28 @@ const bookApi = apiSlice.injectEndpoints({
         url: "/api/v1/wishlist",
       }),
     }),
+    addToReadingList: builder.mutation({
+      query: ({ data }) => ({
+        url: "/api/v1/readinglist",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    getReadingListBooks: builder.query({
+      query: ({ email }) => ({
+        url: "/api/v1/readinglist",
+        body: email,
+      }),
+    }),
+    markAsRead: builder.mutation({
+      query: (id) => ({
+        url: `/api/v1/readinglist/${id}`,
+        method: "PUT",
+      }),
+    }),
   }),
 });
-
+// readinglist
 export const {
   useGetBooksQuery,
   useCreateBookMutation,
@@ -69,4 +88,7 @@ export const {
   useGetSingleBookQuery,
   useAddToWishListMutation,
   useGetWishListBooksQuery,
+  useAddToReadingListMutation,
+  useGetReadingListBooksQuery,
+  useMarkAsReadMutation,
 } = bookApi;

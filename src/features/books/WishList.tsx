@@ -25,23 +25,24 @@ const WishList = () => {
                 </tr>
               </thead>
               <tbody>
-                {data.map((book: any, index: number) => (
-                  <tr className="border-b dark:border-neutral-500">
-                    <td className="whitespace-nowrap px-6 py-4 font-medium">
-                      {index + 1}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4">
-                      {book?.bookId?.title}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4">
-                      {" "}
-                      {book?.bookId?.genre}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4">
-                      {book?.bookId?.author}
-                    </td>
-                  </tr>
-                ))}
+                {data &&
+                  data?.map((book: any, index: number) => (
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="whitespace-nowrap px-6 py-4 font-medium">
+                        {index + 1}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4">
+                        {book?.bookId?.title}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4">
+                        {" "}
+                        {book?.bookId?.genre}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4">
+                        {book?.bookId?.author}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

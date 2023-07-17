@@ -7,10 +7,13 @@ import { AppDispatch } from "./app/store";
 function App() {
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    const user: any = dispatch(loggedinUser());
-    if (user?.payload?.data?.success) {
-      dispatch(setCurrentUser(user?.payload?.data?.data));
-    }
+    const fetchUser = async () => {
+      const user: any = await dispatch(loggedinUser());
+      if (user?.payload?.data?.success) {
+        dispatch(setCurrentUser(user?.payload?.data?.data));
+      }
+    };
+    fetchUser();
   }, []);
   return <RouterProvider router={router} />;
 }

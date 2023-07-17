@@ -1,6 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
-import { useAddToWishListMutation, useDeleteBookMutation } from "./bookApi";
+import {
+  useAddToReadingListMutation,
+  useAddToWishListMutation,
+  useDeleteBookMutation,
+} from "./bookApi";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 
@@ -20,6 +24,7 @@ const BookCard = ({ book }: any) => {
 
   const [deleteBook] = useDeleteBookMutation();
   const [addToWishList] = useAddToWishListMutation();
+  const [addToReadingList] = useAddToReadingListMutation();
 
   const handleDeleteBook = (book: IBook) => {
     Swal.fire({
@@ -47,6 +52,23 @@ const BookCard = ({ book }: any) => {
       title: book?.title,
     };
     const result: any = await addToWishList({ data });
+    if (result.data.createdAt) {
+      Swal.fire({
+        title: "Book added successfully!",
+        icon: "success",
+        timer: 1500,
+      });
+    }
+  };
+
+  const handleAddToReadingList = async () => {
+    const data = {
+      email: user?.email,
+      user: user?.id,
+      book: book?._id,
+    };
+    console.log(data);
+    const result: any = await addToReadingList({ data });
     if (result.data.createdAt) {
       Swal.fire({
         title: "Book added successfully!",
@@ -89,7 +111,7 @@ const BookCard = ({ book }: any) => {
             Add to Wishlist
           </button>
           <button
-            onClick={() => handleDeleteBook(book)}
+            onClick={handleAddToReadingList}
             className="bg-red-500 px-5 py-1 text-white rounded-sm text-sm font-semibold"
           >
             Add to Reading
