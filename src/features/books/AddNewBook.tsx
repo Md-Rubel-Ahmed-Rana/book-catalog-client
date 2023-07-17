@@ -12,6 +12,59 @@ type FormData = {
   publicationDate: string;
 };
 
+export const genres = [
+  "Mystery",
+  "Romance",
+  "Fantasy",
+  "Science Fiction",
+  "Thriller",
+  "Horror",
+  "Historical Fiction",
+  "Biography",
+  "Memoir",
+  "Crime",
+  "Comedy",
+  "Adventure",
+  "Dystopian",
+  "Young Adult",
+  "Literary Fiction",
+  "Suspense",
+  "Paranormal",
+  "Self-help",
+  "Non-fiction",
+  "Western",
+  "Action",
+  "Poetry",
+  "Historical",
+  "Satire",
+  "Psychological",
+  "Children's",
+  "Urban Fantasy",
+  "Contemporary",
+  "Magical Realism",
+  "Graphic Novel",
+  "Science",
+  "Philosophy",
+  "Spirituality",
+  "Travel",
+  "Cookbooks",
+  "Art",
+  "Music",
+  "Sports",
+  "Autobiography",
+  "Business",
+  "Finance",
+  "Health",
+  "Education",
+  "Technology",
+  "Environment",
+  "Romantic Comedy",
+  "Family",
+  "Religion",
+  "Short Stories",
+  "Anthology",
+];
+
 const AddNewBook = () => {
   const {
     register,
@@ -98,27 +151,28 @@ const AddNewBook = () => {
             </div>
             <div className="">
               <p className="text-sm font-semibold mb-1">Genre</p>
-
-              <input
-                aria-label="Genre"
-                type="text"
+              <select
                 {...register("genre", {
                   required: "Genre is required",
                 })}
                 className={`appearance-none rounded-md relative block w-full px-3 py-2 border ${
                   errors.genre ? "border-red-500" : "border-gray-300"
                 } placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
-                placeholder="Genre"
-              />
-              {errors.genre && (
-                <p className="mt-2 text-sm text-red-500">
-                  {errors.genre.message}
-                </p>
-              )}
+              >
+                {genres.map((genre) => (
+                  <option key={Math.random()} value={genre}>
+                    {genre}
+                  </option>
+                ))}
+                {errors.genre && (
+                  <p className="mt-2 text-sm text-red-500">
+                    {errors.genre.message}
+                  </p>
+                )}
+              </select>
             </div>
             <div className="my-5">
               <p className="text-sm font-semibold mb-1">Publication Date</p>
-
               <input
                 aria-label="Publication Date"
                 type="date"

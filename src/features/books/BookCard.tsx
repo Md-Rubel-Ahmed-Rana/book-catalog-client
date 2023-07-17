@@ -4,6 +4,8 @@ import {
   useAddToReadingListMutation,
   useAddToWishListMutation,
   useDeleteBookMutation,
+  useGetReadingListBooksQuery,
+  useGetWishListBooksQuery,
 } from "./bookApi";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
@@ -25,6 +27,8 @@ const BookCard = ({ book }: any) => {
   const [deleteBook] = useDeleteBookMutation();
   const [addToWishList] = useAddToWishListMutation();
   const [addToReadingList] = useAddToReadingListMutation();
+  const allbooks: any = useGetReadingListBooksQuery([]);
+  const { data: wishBooks } = useGetWishListBooksQuery([]);
 
   const handleDeleteBook = (book: IBook) => {
     Swal.fire({
@@ -46,6 +50,14 @@ const BookCard = ({ book }: any) => {
   };
 
   const handleAddToWishList = async () => {
+    const isAdded = wishBooks.data.find((bk: any) => bk._id === book._id);
+    if (isAdded) {
+      return Swal.fire({
+        title: "Book already added!",
+        icon: "warning",
+        timer: 1500,
+      });
+    }
     const data = {
       email: user?.email,
       bookId: book?._id,
@@ -62,12 +74,19 @@ const BookCard = ({ book }: any) => {
   };
 
   const handleAddToReadingList = async () => {
+    const isAdded = allbooks.data.find((bk: any) => bk._id === book._id);
+    if (isAdded) {
+      return Swal.fire({
+        title: "Book already added!",
+        icon: "warning",
+        timer: 1500,
+      });
+    }
     const data = {
       email: user?.email,
       user: user?.id,
       book: book?._id,
     };
-    console.log(data);
     const result: any = await addToReadingList({ data });
     if (result.data.createdAt) {
       Swal.fire({

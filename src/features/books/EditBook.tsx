@@ -2,6 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEditBookMutation } from "./bookApi";
+import { genres } from "./AddNewBook";
 
 type FormData = {
   title: string;
@@ -58,7 +59,7 @@ const EditBook = () => {
               <p className="text-sm font-semibold mb-1">Title</p>
 
               <input
-                defaultValue={book.title}
+                defaultValue={book?.title}
                 aria-label="Title"
                 type="text"
                 {...register("title")}
@@ -70,7 +71,7 @@ const EditBook = () => {
               <p className="text-sm font-semibold mb-1">Author</p>
 
               <input
-                defaultValue={book.author}
+                defaultValue={book?.author}
                 aria-label="Author"
                 type="text"
                 {...register("author")}
@@ -80,20 +81,22 @@ const EditBook = () => {
             </div>
             <div className="">
               <p className="text-sm font-semibold mb-1">Genre</p>
-
-              <input
-                defaultValue={book.genre}
-                aria-label="Genre"
-                type="text"
+              <select
+                defaultValue={book?.genre}
                 {...register("genre")}
                 className="appearance-none rounded-md relative block w-full px-3 py-2 border placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Genre"
-              />
+              >
+                {genres.map((genre) => (
+                  <option key={Math.random()} value={genre}>
+                    {genre}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="my-5">
               <p className="text-sm font-semibold mb-1">Publication Date</p>
               <input
-                defaultValue={book.publicationDate}
+                defaultValue={book?.publicationDate}
                 aria-label="Publication Date"
                 type="date"
                 {...register("publicationDate")}
