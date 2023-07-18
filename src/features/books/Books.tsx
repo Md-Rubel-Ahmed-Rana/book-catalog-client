@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useGetBooksQuery } from "./bookApi";
 import { Link } from "react-router-dom";
 import { genres } from "./AddNewBook";
-import { SubmitHandler, useForm } from "react-hook-form";
 
 interface IBook {
   _id: string;
@@ -14,9 +13,6 @@ interface IBook {
   publicationDate: string;
 }
 
-type FormData = {
-  searchTerm: string;
-};
 const currentYear = new Date().getFullYear();
 const yearsList = Array.from(
   { length: 100 },
@@ -36,43 +32,22 @@ const Books = () => {
     year: year,
     searchTerm: searchText,
   });
-  const [totalBooks, setTotalBooks] = useState(data?.meta?.total || 0);
-  const [books, setBooks] = useState(data?.data || []);
-  const pages = Math.ceil(totalBooks / pageLimit);
-  console.log({ pages, totalBooks, total: data?.meta?.total });
 
-  const { register, handleSubmit } = useForm<FormData>();
-
-  const handleSearchBooks: SubmitHandler<FormData> = async (data) => {
-    setSearchText(data.searchTerm);
-  };
+  const pages = Math.ceil(data?.meta?.total / pageLimit);
 
   if (isLoading) {
     return (
       <h1 className="text-xl font-bold text-center py-5">Books Loading...</h1>
     );
   }
-  // if (searchText) {
-  //   let searchedBooks = data?.data?.data?.filter(
-  //     (book: IBook) =>
-  //       book?.title?.toLowerCase().includes(searchText.toLowerCase()) ||
-  //       book?.author?.toLowerCase().includes(searchText.toLowerCase()) ||
-  //       book?.genre?.toLowerCase().includes(searchText.toLowerCase())
-  //   );
-  //   setBooks(() => [...books, searchedBooks]);
-  // }
 
   return (
     <div>
       <div className="flex p-5">
-        {books?.length < 1 && (
-          <h1 className="w-full text-center text-xl font-bold">
-            No books found
-          </h1>
-        )}
+        {/* books  */}
         <div className="w-10/12 m-2 grid grid-cols-3 gap-5">
-          {books &&
-            books?.map((book: IBook) => (
+          {data?.data &&
+            data?.data?.map((book: IBook) => (
               <Link
                 key={book._id}
                 to={`/book-details/${book._id}`}
@@ -81,32 +56,24 @@ const Books = () => {
                 <BookCard book={book} />
               </Link>
             ))}
-        </div>
-        <div className="w-2/12 border m-2 p-4 rounded-md">
-          <form
-            onSubmit={handleSubmit(handleSearchBooks)}
-            className="border p-2 rounded-md"
-          >
-            <label htmlFor="" className="text-md font-semibold">
-              Search Books
-            </label>
-            <div className="flex gap-1 w-full">
-              <input
-                {...register("searchTerm", {
-                  required: "SearchTerm is required",
-                })}
-                type="text"
-                className="border w-28 px-1"
-              />
-
-              <button
-                type="submit"
-                className="bg-blue-200 text-sm font-semibold px-2 rounded-md"
-              >
-                Search
-              </button>
+          {data?.data?.length < 1 && (
+            <div className="w-10/12">
+              <h1 className="text-center text-xl font-bold">No books found</h1>
             </div>
-          </form>
+          )}
+        </div>
+        {/* search and filtering  */}
+        <div className="w-2/12 border m-2 p-4 rounded-md">
+          <label htmlFor="" className="text-md font-semibold">
+            Search Books
+          </label>
+          <div className="flex gap-1 w-full">
+            <input
+              onChange={(e) => setSearchText(e.target.value)}
+              type="text"
+              className="border appearance-none focus:outline-none focus:ring-indigo-500  focus:border-indigo-500 placeholder-gray-500 text-gray-900 focus:z-10 w-full rounded-md px-1"
+            />
+          </div>
           {/* filters  */}
           <div className="mt-3">
             <h4 className="text-md font-semibold">Filter Books</h4>
@@ -132,6 +99,7 @@ const Books = () => {
                   onChange={(e) => setYear(e.target.value)}
                   className="appearance-none rounded-md relative block w-full px-3 py-2 border placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 >
+                  <option selected>Select</option>
                   {yearsList.map((year) => (
                     <option key={Math.random()} value={year}>
                       {year}
@@ -161,8 +129,8 @@ const Books = () => {
             </p>
           ))}
           <select
-            defaultValue={pageLimit}
-            className="rounded-md px-8 text-xs py-0"
+            value={pageLimit}
+            className="rounded-md border border-gray-400 px-8 text-xs py-0"
             onChange={(event) => setPageLimit(Number(event.target.value))}
           >
             <option value="5">5</option>
