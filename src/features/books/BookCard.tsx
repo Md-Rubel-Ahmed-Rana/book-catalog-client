@@ -29,6 +29,9 @@ const BookCard = ({ book }: any) => {
   const [addToReadingList] = useAddToReadingListMutation();
   const allbooks: any = useGetReadingListBooksQuery([]);
   const { data: wishBooks } = useGetWishListBooksQuery([]);
+  const readingBooks = allbooks?.data?.filter(
+    (dt: any) => dt?.email === user?.email
+  );
 
   const handleDeleteBook = (book: IBook) => {
     Swal.fire({
@@ -50,7 +53,7 @@ const BookCard = ({ book }: any) => {
   };
 
   const handleAddToWishList = async () => {
-    const isAdded = wishBooks.data.find((bk: any) => bk._id === book._id);
+    const isAdded = wishBooks?.find((bk: any) => bk?.bookId._id === book?._id);
     if (isAdded) {
       return Swal.fire({
         title: "Book already added!",
@@ -74,7 +77,9 @@ const BookCard = ({ book }: any) => {
   };
 
   const handleAddToReadingList = async () => {
-    const isAdded = allbooks.data.find((bk: any) => bk._id === book._id);
+    const isAdded = readingBooks?.find(
+      (bk: any) => bk?.book?._id === book?._id
+    );
     if (isAdded) {
       return Swal.fire({
         title: "Book already added!",

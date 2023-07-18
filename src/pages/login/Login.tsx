@@ -55,7 +55,8 @@ const Login = () => {
             </h2>
           </div>
           <div className="rounded-md shadow-sm">
-            <div className="my-5">
+            <div className="my-5 rounded-md">
+              <label htmlFor="email">Email</label>
               <input
                 aria-label="Email address"
                 type="email"
@@ -67,8 +68,8 @@ const Login = () => {
                   },
                 })}
                 className={`appearance-none rounded-md relative block w-full px-3 py-2 border ${
-                  errors.email ? "border-red-500" : "border-gray-300"
-                } placeholder-gray-500 text-gray-900 rounded-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                  errors.email ? "border-red-500 rounded-md" : "border-gray-300"
+                } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
                 placeholder="Email address"
               />
               {errors.email && (
@@ -78,6 +79,7 @@ const Login = () => {
               )}
             </div>
             <div className="-mt-px">
+              <label htmlFor="password">Password</label>
               <input
                 aria-label="Password"
                 type="password"

@@ -2,12 +2,13 @@ import { useGetWishListBooksQuery } from "./bookApi";
 
 const WishList = () => {
   const { data } = useGetWishListBooksQuery([]);
+  console.log(data);
   return (
     <div className="flex flex-col">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
           <div className="overflow-hidden">
-            {data?.length > 1 ? (
+            {data?.length > 0 ? (
               <table className="min-w-full text-left text-sm font-light">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>

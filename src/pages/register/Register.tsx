@@ -21,6 +21,7 @@ const RegisterPage = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     const result: any = await createUser(data);
+    console.log(result);
     if (result?.data?.success) {
       if (result?.data?.success) {
         Swal.fire({
@@ -57,6 +58,7 @@ const RegisterPage = () => {
           </div>
           <div className="rounded-md shadow-sm">
             <div>
+              <label htmlFor="name">Name</label>
               <input
                 aria-label="Name"
                 type="text"
@@ -73,6 +75,7 @@ const RegisterPage = () => {
               )}
             </div>
             <div className="my-5">
+              <label htmlFor="email">Email</label>
               <input
                 aria-label="Email address"
                 type="email"
@@ -85,7 +88,7 @@ const RegisterPage = () => {
                 })}
                 className={`appearance-none rounded-md relative block w-full px-3 py-2 border ${
                   errors.email ? "border-red-500" : "border-gray-300"
-                } placeholder-gray-500 text-gray-900 rounded-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
                 placeholder="Email address"
               />
               {errors.email && (
@@ -95,6 +98,7 @@ const RegisterPage = () => {
               )}
             </div>
             <div className="-mt-px">
+              <label htmlFor="password">Password</label>
               <input
                 aria-label="Password"
                 type="password"
