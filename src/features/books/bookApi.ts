@@ -8,26 +8,26 @@ const bookApi = apiSlice.injectEndpoints({
         url: "/api/v1/books/create-book",
         body: data,
       }),
-      invalidatesTags: ["books"],
+      invalidatesTags: ["books"] as any,
     }),
     getBooks: builder.query({
       query: ({ page, limit, searchTerm, genre, year }) => ({
         url: `/api/v1/books?page=${page}&limit=${limit}&year=${year}&genre=${genre}&searchTerm=${searchTerm}`,
       }),
-      providesTags: ["books"],
+      providesTags: ["books"] as any,
     }),
     getSingleBook: builder.query({
       query: (id) => ({
         url: `/api/v1/books/${id}`,
       }),
-      providesTags: ["book"],
+      providesTags: ["book"] as any,
     }),
     deleteBook: builder.mutation({
       query: (id) => ({
         url: `/api/v1/books/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["books"],
+      invalidatesTags: ["books"] as any,
     }),
     editBook: builder.mutation({
       query: ({ id, data }) => ({
@@ -35,7 +35,7 @@ const bookApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
-      invalidatesTags: ["books"],
+      invalidatesTags: ["books"] as any,
     }),
     reviewToBook: builder.mutation({
       query: ({ id, data }) => ({
@@ -43,7 +43,7 @@ const bookApi = apiSlice.injectEndpoints({
         method: "PUT",
         body: data,
       }),
-      invalidatesTags: ["book"],
+      invalidatesTags: ["book"] as any,
     }),
     addToWishList: builder.mutation({
       query: ({ data }) => ({
@@ -63,21 +63,21 @@ const bookApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["readingList"],
+      invalidatesTags: ["readingList"] as any,
     }),
     getReadingListBooks: builder.query({
-      query: ({ email }) => ({
+      query: ({ email }): any => ({
         url: "/api/v1/readinglist",
         body: email,
       }),
-      providesTags: ["readingList"],
+      providesTags: ["readingList"] as any,
     }),
     markAsRead: builder.mutation({
       query: (id) => ({
         url: `/api/v1/readinglist/${id}`,
         method: "PUT",
       }),
-      invalidatesTags: ["readingList"],
+      invalidatesTags: ["readingList"] as any,
     }),
   }),
 });
