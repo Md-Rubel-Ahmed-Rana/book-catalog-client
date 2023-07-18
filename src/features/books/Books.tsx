@@ -35,6 +35,8 @@ const Books = () => {
 
   const pages = Math.ceil(data?.meta?.total / pageLimit);
 
+  console.log({ total: data, pages });
+
   if (isLoading) {
     return (
       <h1 className="text-xl font-bold text-center py-5">Books Loading...</h1>
@@ -114,7 +116,7 @@ const Books = () => {
       {/* Pagination  */}
       <div className="my-5  text-center">
         <div className="flex justify-center flex-wrap gap-3">
-          {[...Array(pages).keys()].map((number) => (
+          {[...Array(pages).keys()]?.map((number) => (
             <p key={Math.random()}>
               <button
                 type="button"

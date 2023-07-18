@@ -63,18 +63,21 @@ const bookApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["readingList"],
     }),
     getReadingListBooks: builder.query({
       query: ({ email }) => ({
         url: "/api/v1/readinglist",
         body: email,
       }),
+      providesTags: ["readingList"],
     }),
     markAsRead: builder.mutation({
       query: (id) => ({
         url: `/api/v1/readinglist/${id}`,
         method: "PUT",
       }),
+      invalidatesTags: ["readingList"],
     }),
   }),
 });

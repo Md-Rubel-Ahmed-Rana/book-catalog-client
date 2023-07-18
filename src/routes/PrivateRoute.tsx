@@ -13,7 +13,7 @@ const PrivateRoute = ({ children }: IProps) => {
 
   setTimeout(() => {
     setLoading(false);
-  }, 1000);
+  }, 3000);
 
   if (loading) {
     return <Loader />;

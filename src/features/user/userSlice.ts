@@ -15,7 +15,7 @@ export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (userData: { email: string; password: string }) => {
     const result = await axios.post(
-      "http://localhost:5000/api/v1/auth/login",
+      "https://bookcatalogserver.vercel.app/api/v1/auth/login",
       userData
     );
     return result;
@@ -26,7 +26,7 @@ export const loggedinUser = createAsyncThunk<AxiosResponse<any, any>, void>(
   "auth/loggedinUser",
   async () => {
     const user = await axios.get(
-      "http://localhost:5000/api/v1/auth/loggedinUser",
+      "https://bookcatalogserver.vercel.app/api/v1/auth/loggedinUser",
       {
         headers: {
           authorization: localStorage.getItem("accessToken"),
