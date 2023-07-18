@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useGetBooksQuery } from "./bookApi";
 import { Link } from "react-router-dom";
 import { genres } from "./AddNewBook";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 interface IBook {
   _id: string;
@@ -13,6 +14,9 @@ interface IBook {
   publicationDate: string;
 }
 
+type FormData = {
+  searchTerm: string;
+};
 const currentYear = new Date().getFullYear();
 const yearsList = Array.from(
   { length: 100 },
@@ -24,35 +28,39 @@ const Books = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [filterByGenre, setFilterByGenre] = useState("");
   const [pageLimit, setPageLimit] = useState(9);
-  const [year, setYear] = useState(null || 0);
+  const [year, setYear] = useState("");
   const { data, isLoading } = useGetBooksQuery({
     page: pageNumber,
     limit: pageLimit,
-    searchTerm: searchText,
     genre: filterByGenre,
     year: year,
+    searchTerm: searchText,
   });
-  const [totalBooks, setTotalBooks] = useState(data?.data?.meta?.total || 0);
-  const [books, setBooks] = useState(data?.data?.data || []);
+  const [totalBooks, setTotalBooks] = useState(data?.meta?.total || 0);
+  const [books, setBooks] = useState(data?.data || []);
   const pages = Math.ceil(totalBooks / pageLimit);
+  console.log({ pages, totalBooks, total: data?.meta?.total });
+
+  const { register, handleSubmit } = useForm<FormData>();
+
+  const handleSearchBooks: SubmitHandler<FormData> = async (data) => {
+    setSearchText(data.searchTerm);
+  };
+
   if (isLoading) {
     return (
       <h1 className="text-xl font-bold text-center py-5">Books Loading...</h1>
     );
   }
-  // let books = data?.data?.data?.filter(
-  //   (book: IBook) =>
-  //     book?.title?.toLowerCase().includes(searchText.toLowerCase()) ||
-  //     book?.author?.toLowerCase().includes(searchText.toLowerCase()) ||
-  //     book?.genre?.toLowerCase().includes(searchText.toLowerCase()) ||
-  //     book?.genre === filterByGenre
-  // );
-
-  // if (filterByGenre) {
-  //   books = books.filter((book: IBook) => book.genre === filterByGenre);
+  // if (searchText) {
+  //   let searchedBooks = data?.data?.data?.filter(
+  //     (book: IBook) =>
+  //       book?.title?.toLowerCase().includes(searchText.toLowerCase()) ||
+  //       book?.author?.toLowerCase().includes(searchText.toLowerCase()) ||
+  //       book?.genre?.toLowerCase().includes(searchText.toLowerCase())
+  //   );
+  //   setBooks(() => [...books, searchedBooks]);
   // }
-
-  console.log(data?.data?.meta?.total);
 
   return (
     <div>
@@ -75,21 +83,30 @@ const Books = () => {
             ))}
         </div>
         <div className="w-2/12 border m-2 p-4 rounded-md">
-          <div className="border p-2 rounded-md">
+          <form
+            onSubmit={handleSubmit(handleSearchBooks)}
+            className="border p-2 rounded-md"
+          >
             <label htmlFor="" className="text-md font-semibold">
               Search Books
             </label>
             <div className="flex gap-1 w-full">
               <input
-                onChange={(e) => setSearchText(e.target.value)}
+                {...register("searchTerm", {
+                  required: "SearchTerm is required",
+                })}
                 type="text"
                 className="border w-28 px-1"
               />
-              <button className="bg-blue-200 text-sm font-semibold px-2 rounded-md">
+
+              <button
+                type="submit"
+                className="bg-blue-200 text-sm font-semibold px-2 rounded-md"
+              >
                 Search
               </button>
             </div>
-          </div>
+          </form>
           {/* filters  */}
           <div className="mt-3">
             <h4 className="text-md font-semibold">Filter Books</h4>
@@ -97,6 +114,7 @@ const Books = () => {
               <div className="my-2 border p-2 rounded-md">
                 <p className="text-sm font-semibold mb-1">Genre</p>
                 <select
+                  value={filterByGenre}
                   onChange={(e) => setFilterByGenre(e.target.value)}
                   className="appearance-none rounded-md relative block w-full px-3 py-2 border placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 >
@@ -110,7 +128,8 @@ const Books = () => {
               <div className="my-2 border p-2 rounded-md">
                 <p className="text-sm font-semibold mb-1">Year</p>
                 <select
-                  onChange={(e) => setYear(Number(e.target.value))}
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
                   className="appearance-none rounded-md relative block w-full px-3 py-2 border placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 >
                   {yearsList.map((year) => (
@@ -133,7 +152,7 @@ const Books = () => {
                 type="button"
                 key={number}
                 className={`px-3 rounded-md outline-none  ${
-                  pageNumber === number + 1 ? "bg-[#7dec96]" : "bg-green-100"
+                  pageNumber === number + 1 ? "bg-[#7dec96]" : "bg-gray-300"
                 }`}
                 onClick={() => setPageNumber(number + 1)}
               >
@@ -147,7 +166,9 @@ const Books = () => {
             onChange={(event) => setPageLimit(Number(event.target.value))}
           >
             <option value="5">5</option>
-            <option value="10">10</option>
+            <option selected value="9">
+              9
+            </option>
             <option value="15">15</option>
             <option value="20">20</option>
           </select>
